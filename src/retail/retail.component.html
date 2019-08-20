@@ -1,0 +1,224 @@
+<div class="container">
+    <div class="col-lg-12 col-sm-12 " *ngIf="showError">
+        <div class="alert alert-warning alert-dismissible fade show">  
+            <button type="button" class="close" data-dismiss="alert">×</button>  
+          <strong>Error!</strong> {{error}}  
+        </div>  
+    </div>
+
+
+
+  <div class="container">
+
+    <div class="row">
+
+
+
+
+
+      <!-- Post Content Column -->
+      <div class="col-lg-12">
+
+        <!-- Title -->
+        <h1 class="mt-4">Details</h1>
+
+
+
+        <hr>
+
+
+
+        <!-- Preview Image -->
+
+        <hr>
+
+
+
+        <section id="tabs" class="project-tab">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <nav>
+                  <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                      aria-controls="nav-home" aria-selected="true" (click)="userdetails($event)">Item List</a>
+                    
+                  </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+
+                    <a class="btn btn-info btn-xs pull-right" (click)=" adduserDetail() "  data-toggle="modal"
+                    data-target="#edit">
+                      <span class="fa fa-user-plus "></span></a>
+                      <br/><br/>
+
+                    <div class="table-responsive">
+
+
+                      <table id="mytable" class="table table-bordred  ">
+
+                        <thead class="thead-light">
+
+                          <!-- <th><input type="checkbox" id="checkall" /></th> -->
+                          <th>Id</th>
+                          <th> Item</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th>Availability</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+ 
+                        </thead>
+                        <tbody>
+
+                          <tr *ngFor="let d of item">
+                            <!-- <td><input type="checkbox" class="checkthis" /></td> -->
+                            <td>{{d.id}}</td>
+                            <td>{{d.name}}</td>
+                            <td>{{d.price}}</td>
+                            <td>{{d.quantity}}</td>
+                            <td>{{d.availability}}</td>
+                            <td>
+                              <p data-placement="top" data-toggle="tooltip" title="Edit" (click)="editDetail(d)">
+                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
+                                  data-target="#edit"><span class="fa fa-pencil"></span></button></p>
+                            </td>
+                            <td>
+                              <p data-placement="top" data-toggle="tooltip" title="Delete"  (click)="deleteDetail(d)"><button
+                                  class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"
+                                  data-target="#delete"><span class="fa fa-trash"></span></button></p>
+                            </td>  
+                          </tr>
+
+
+
+
+
+
+
+                        </tbody>
+
+                      </table>
+                      <nav aria-label="Page navigation example ">
+                        <ul class="pagination pull-right">
+                          <li class="page-item" [class.disabled]="pageForUser.cur==pageForUser.first">
+                            <a class="page-link" href="javascript:void(0)" (click)="pageForUserFn(-1,'p')"
+                              aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                          </li>
+                          <li class="page-item" *ngFor="let i of pageForUser.getRange()"
+                            [class.disabled]="i==pageForUser.cur">
+                            <a class="page-link" href="javascript:void(0)" (click)="pageForUserFn(i,'m')">{{i}}</a>
+                          </li>
+
+                          <li class="page-item" [class.disabled]="pageForUser.cur==pageForUser.last">
+                            <a class="page-link" href="javascript:void(0)" (click)="pageForUserFn(-1,'n')"
+                              aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+
+
+                    </div>
+                  </div>
+                  
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+
+
+
+
+
+
+        <hr>
+
+
+ 
+
+
+
+      </div>
+
+
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <br /><br />
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{modalHeader}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                  <label>item name</label>
+                  <input name="name" type="text" [(ngModel)]="saveUser.name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>item price</label>
+                    <input name="price" type="text" [(ngModel)]="saveUser.price" class="form-control" />
+                </div>
+                  <div class="form-group">
+                      <label>item quantity</label>
+                      <input name="quantity" type="text" [(ngModel)]="saveUser.quantity" class="form-control" />
+                    </div>
+                <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+              </form>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveDetail()">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <br /><br />
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{modalHeader}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           Are you sure to delete?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveDetail()">Delete
+             </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
